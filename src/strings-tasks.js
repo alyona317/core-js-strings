@@ -40,8 +40,8 @@ function getStringLength(value) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  return typeof value === 'string' || value instanceof String;
 }
 
 /**
@@ -171,13 +171,12 @@ function removeFirstOccurrences(str, value) {
  *   removeLastOccurrences('I like legends', 'end') => 'I like legs'.
  *   removeLastOccurrences('ABABAB', 'BA') => 'ABAB'.
  */
-function removeLastOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
-  // if (str.lastIndexOf(value) >= 0) {
-
-  //   return str.replace(value, '');
-  // }
-  // return str;
+function removeLastOccurrences(str, value) {
+  const index = str.lastIndexOf(value);
+  if (str.lastIndexOf(value) >= 0) {
+    return str.slice(0, index) + str.slice(index + value.length);
+  }
+  return str;
 }
 
 /**
@@ -193,14 +192,14 @@ function removeLastOccurrences(/* str, value */) {
  *   sumOfCodes() => 0
  */
 function sumOfCodes(str) {
-  let sum;
-  if (typeof str === 'string' && str !== '') {
-    for (let i = 0; i < str.length; i + 1) {
-      sum += str.charCodeAt(i);
-    }
-    return sum;
+  let sum = 0;
+  if (typeof str !== 'string' || str === '') {
+    return 0;
   }
-  return 0;
+  for (let i = 0; i < str.length; i += 1) {
+    sum += str.charCodeAt(i);
+  }
+  return sum;
 }
 
 /**
