@@ -339,7 +339,7 @@ function countVowels(str) {
  *   isPalindrome('No lemon, no melon') => true
  */
 function isPalindrome(str) {
-  const str1 = str.toLocaleLowerCase().replace(/[^a-z0-9]/g, '');
+  const str1 = str.toLowerCase().replace(/[^a-z0-9]/g, '');
   const revers = str1.split('').reverse().join('');
   return revers === str1;
 }
@@ -457,8 +457,8 @@ function extractNameFromTemplate(value) {
  *   unbracketTag('<span>') => 'span'
  *   unbracketTag('<a>') => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.replace(/[<>]/g, '');
 }
 
 /**
@@ -476,8 +476,8 @@ function unbracketTag(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -496,8 +496,23 @@ function extractEmails(/* str */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const alphabetUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const alphabetLower = 'abcdefghijklmnopqrstuvwxyz';
+  const arr = [];
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    if (alphabetUpper.includes(char)) {
+      const index = (alphabetUpper.indexOf(char) + 13) % 26;
+      arr.push(alphabetUpper[index]);
+    } else if (alphabetLower.includes(char)) {
+      const index = (alphabetLower.indexOf(char) + 13) % 26;
+      arr.push(alphabetLower[index]);
+    } else {
+      arr.push(char);
+    }
+  }
+  return arr.join('');
 }
 
 /**
@@ -524,8 +539,38 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const suits = ['♣', '♦', '♥', '♠'];
+  const ranks = [
+    'A',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    'J',
+    'Q',
+    'K',
+  ];
+  const suit = value[value.length - 1];
+  const rank = value.slice(0, value.length - 1);
+  let rankIndex = -1;
+  let suitIndex = -1;
+  ranks.forEach((r, index) => {
+    if (r === rank) {
+      rankIndex = index;
+    }
+  });
+  suits.forEach((s, index) => {
+    if (s === suit) {
+      suitIndex = index;
+    }
+  });
+  return suitIndex * ranks.length + rankIndex;
 }
 
 module.exports = {
